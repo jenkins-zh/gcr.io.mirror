@@ -26,5 +26,10 @@ jobs:
     - name: Run a multi-line script
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SOURCE_IMAGE: gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/controller:v0.12.1
+        TARGET_IMAGE: docker.pkg.github.com/jenkins-zh/gcr.io.mirror/controller:v0.12.1
       run: |
         docker login docker.pkg.github.com -u LinuxSuRen -p ${GITHUB_TOKEN}
+        docker pull ${SOURCE_IMAGE}
+        docker tag ${SOURCE_IMAGE} ${TARGET_IMAGE}
+        docker push ${TARGET_IMAGE}
